@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+  generation: 2
+  labels:
+    app: smx-smx-notificacion
+  name: dpl-smx-notificacion
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smx-notificacion
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: smx-notificacion
+    spec:
+      imagePullSecrets:
+      - name: secretpoldefcontainerregistrydev
+      containers:
+      - env:
+        - name: DB_HOST
+          value: _{DB_HOST_AMB}_
+        - name: DB_PORT
+          value: _{DB_PORT_AMB}_
+        - name: DB_USERNAME
+          value: _{DB_USERNAME_AMB}_
+        - name: DB_PASSWORD
+          value: _{DB_PASSWORD_AMB}_
+        - name: DB_DATABASE
+          value: _{DB_DATABASE_AMB}_
+        - name: DB_LOGGING
+          value: "_{DB_LOGGING_AMB}_"
+        - name: TZ
+          value: America/Santiago
+        - name: NODE_ENV
+          value: _{NODE_ENV_AMB}_
+        - name: HTTPS_HOSTNAME
+          value: _{HTTPS_HOSTNAME_AMB}_
+        - name: NOTIFICATION_NAME
+          value: _{NOTIFICATION_NAME_AMB}_
+        - name: NOTIFICATION_CONNECTION_STRING
+          value: _{NOTIFICATION_CONNECTION_STRING_AMB}_
+        - name: FIREBASE_API_KEY
+          value: "_{FIREBASE_API_KEY_AMB}_"
+        - name: FIREBASE_AUTH_DOMAIN
+          value: "_{FIREBASE_AUTH_DOMAIN_AMB}_"
+        - name: FIREBASE_DATABASE_URL
+          value: "_{FIREBASE_DATABASE_URL_AMB}_"
+        - name: FIREBASE_PROYECT_ID
+          value: "_{FIREBASE_PROYECT_ID_AMB}_"
+        - name: FIREBASE_STORAGE_BUCKET
+          value: "_{FIREBASE_STORAGE_BUCKET_AMB}_"
+        - name: FIREBASE_MESSAGING_SENDER_ID
+          value: "_{FIREBASE_MESSAGING_SENDER_ID_AMB}_"
+        - name: FIREBASE_APP_ID
+          value: "_{FIREBASE_APP_ID_AMB}_"
+        - name: FIREBASE_MEASUREMENT_ID
+          value: "_{FIREBASE_MEASUREMENT_ID_AMB}_"
+        image: poldefcontainerregistrydev.azurecr.io/smx-notificacion:$(Build.BuildId)
+        imagePullPolicy: IfNotPresent
+        name: smx-notificacion
+        ports:
+        - containerPort: 3008
+          protocol: TCP
+
+            

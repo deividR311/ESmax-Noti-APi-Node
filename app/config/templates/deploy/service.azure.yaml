@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  name: svc-notificacion
+  namespace: default
+spec:
+  ports:
+  - port: 3008
+    protocol: TCP
+    targetPort: 3008
+  selector:
+    app: smx-notificacion
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
